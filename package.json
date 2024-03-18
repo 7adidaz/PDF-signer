@@ -10,8 +10,17 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-navigation/native": "^6.1.16",
+    "@react-navigation/native-stack": "^6.9.25",
+    "@react-navigation/stack": "^6.3.28",
+    "@shopify/react-native-skia": "^1.0.4",
+    "expo": "^50.0.0",
     "react": "18.2.0",
-    "react-native": "0.73.6"
+    "react-native": "0.73.6",
+    "react-native-blob-util": "^0.19.8",
+    "react-native-document-picker": "^9.1.1",
+    "react-native-gesture-handler": "^2.15.0",
+    "react-native-pdf": "^6.7.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
