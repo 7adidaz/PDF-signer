@@ -1,23 +1,33 @@
 import React from 'react';
-import {Text, Dimensions, StyleSheet, SafeAreaView} from 'react-native';
+import { Text, Dimensions, StyleSheet, SafeAreaView } from 'react-native';
 import PDF from 'react-native-pdf';
 
-export default function EditPdf({route}) {
+export default function EditPdf({ route }) {
   console.log('editPdf: ', route.params);
-  const {fileName, fileUri} = route.params;
+  const { fileName, fileUri } = route.params;
   return (
     <SafeAreaView>
-      <Text>{fileName}</Text>
-      {fileUri && (
-        <PDF
-          source={{
-            // uri: fileUri,
-            uri: 'http://www.samples.leanpub.com/thereactnativebook-sample.pdf',
-            cache: true,
-          }}
-          onError={error => console.log(error)}
-        />
-      )}
+      {/* <Text>{fileName}</Text> */}
+      <PDF
+        source={{
+          // uri: fileUri,
+          uri: fileUri,
+          cache: true,
+        }}
+        onLoadComplete={(numberOfPages, filePath) => {
+          console.log(`Number of pages: ${numberOfPages}`);
+        }}
+        onPageChanged={(page, numberOfPages) => {
+          console.log(`Current page: ${page}`);
+        }}
+        onError={error => {
+          console.log(error);
+        }}
+        onPressLink={uri => {
+          console.log(`Link pressed: ${uri}`);
+        }}
+        style={styles.pdf}
+      />
     </SafeAreaView>
   );
 }
