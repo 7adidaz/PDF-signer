@@ -1,34 +1,32 @@
 import React from 'react';
-import {StyleSheet, Text, SafeAreaView, Button, StatusBar} from 'react-native';
-import DocumentPicker, {
-  DocumentPickerResponse,
-  DirectoryPickerResponse,
-} from 'react-native-document-picker';
+import {StyleSheet, SafeAreaView, Button, StatusBar} from 'react-native';
+import DocumentPicker from 'react-native-document-picker';
+import RNPermissions from 'react-native-permissions';
 
-export default function SelectPdf({navigation, route}) {
-  const [result, setResult] = React.useState<DocumentPickerResponse | null>();
+export default function SelectPdf({navigation}) {
+  const handleSelection = async () => {
+    try {
+      await RNPermissions.request(
+        RNPermissions.PERMISSIONS.ANDROID.ACCESS_MEDIA_LOCATION,
+      );
+
+      const res = await DocumentPicker.pickSingle({
+        type: [DocumentPicker.types.pdf],
+        copyTo: 'cachesDirectory',
+      });
+
+      navigation.navigate('Signature', {
+        fileUri: res.fileCopyUri,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle={'dark-content'} />
-      <Button
-        title="Select 📑"
-        onPress={async () => {
-          try {
-            const res = await DocumentPicker.pickSingle({
-              type: [DocumentPicker.types.pdf],
-            });
-            setResult(res);
-            console.log(res);
-            navigation.navigate('Signature', {
-              fileName: res.name,
-              fileUri: res.uri,
-            });
-          } catch (err) {
-            console.log(err);
-          }
-        }}
-      />
+      <Button title="Select 📑" onPress={handleSelection} />
     </SafeAreaView>
   );
 }

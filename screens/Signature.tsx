@@ -1,67 +1,65 @@
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import React, {useState} from 'react';
-import {Button, View} from 'react-native';
-
-import {Canvas, Path} from '@shopify/react-native-skia';
+import {Button, View, StyleSheet} from 'react-native';
+import {Canvas, Path, Skia, SkPath} from '@shopify/react-native-skia';
+import {runOnJS} from 'react-native-reanimated';
 
 export default function Signature({route, navigation}) {
   const {fileName, fileUri} = route.params;
-  const [paths, setPaths] = useState([]);
-  const [currPath, setCurrPath] = useState({segments: [], color: 'black'});
+  const [paths, setPaths] = useState<SkPath[]>([]);
+  const [path, setPath] = useState<SkPath>(Skia.Path.Make());
 
-  let currPathLocal = {...currPath};
+  const handleStart = g => {
+    path.moveTo(g.x, g.y);
+  };
+
+  const handleUpdate = g => {
+    path.lineTo(g.x, g.y);
+  };
+
+  const handleEnd = _ => {
+    const pathsCopy = [...paths];
+    pathsCopy.push(path);
+    console.log(path.toSVGString());
+    setPath(Skia.Path.Make());
+    setPaths(pathsCopy);
+  };
+
   const pan = Gesture.Pan()
-    .onStart(g => {
-      currPathLocal = {
-        ...currPathLocal,
-        segments: [...currPathLocal.segments, `M ${g.x} ${g.y}`],
-      };
-    })
-    .onUpdate(g => {
-      currPathLocal = {
-        ...currPathLocal,
-        segments: [...currPathLocal.segments, `L ${g.x} ${g.y}`],
-      };
-    })
-    .onEnd(g => {
-      currPathLocal = {
-        ...currPathLocal,
-        segments: [...currPathLocal.segments, `L ${g.x} ${g.y}`],
-      };
-      setCurrPath(currPathLocal);
-      setPaths(prevPaths => [...prevPaths, currPathLocal]);
-      currPathLocal = {segments: [], color: 'black'};
-    })
+    .onStart(e => runOnJS(handleStart)(e))
+    .onUpdate(e => runOnJS(handleUpdate)(e))
+    .onEnd(e => runOnJS(handleEnd)(e))
     .minDistance(1);
 
   const resetPath = () => {
     setPaths([]);
-    setCurrPath({segments: [], color: 'black'});
   };
 
   const navigateToEditPdf = () => {
     navigation.navigate('Edit Pdf', {
       fileName: fileName,
       fileUri: fileUri,
+      paths: paths,
     });
   };
 
   return (
     <GestureDetector gesture={pan}>
-      <View style={{flex: 1, backgroundColor: 'white'}}>
-        <Canvas style={{flex: 8}}>
+      <View style={styles.flex}>
+        <Canvas style={styles.flex}>
           {paths.map((p, index) => (
             <Path
               key={index}
-              path={p.segments.join(' ')}
+              // path={p.segments.join(' ')}
+              path={p}
               strokeWidth={5}
               style="stroke"
-              color={p.color}
+              color="black"
             />
           ))}
         </Canvas>
         <View style={{flexDirection: 'row'}}>
-          <View style={{flex: 1}}>
+          <View style={styles.flex}>
             <Button
               onPress={resetPath}
               title="Reset Signature"
@@ -69,7 +67,7 @@ export default function Signature({route, navigation}) {
             />
           </View>
 
-          <View style={{flex: 1}}>
+          <View style={styles.flex}>
             <Button onPress={navigateToEditPdf} title="Done" color="#841584" />
           </View>
         </View>
@@ -77,3 +75,9 @@ export default function Signature({route, navigation}) {
     </GestureDetector>
   );
 }
+
+const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+});

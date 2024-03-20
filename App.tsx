@@ -4,7 +4,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SelectPdf from './screens/SelectPDF';
 import Signature from './screens/Signature';
-import EditPdf from './screens/EditPDF';
+import EditPdf from './screens/SelectPage';
+import PlaceSignature from './screens/PlaceSignature';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,10 @@ function App(): React.JSX.Element {
         <Stack.Screen
           name="Edit Pdf"
           component={gestureHandlerRootHOC(EditPdf)}
+        />
+        <Stack.Screen
+          name="Place Signature"
+          component={gestureHandlerRootHOC(PlaceSignature)}
         />
       </Stack.Navigator>
     </NavigationContainer>

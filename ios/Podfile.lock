@@ -8,8 +8,6 @@ PODS:
     - ExpoModulesCore
   - Expo (50.0.13):
     - ExpoModulesCore
-  - ExpoDocumentPicker (11.10.1):
-    - ExpoModulesCore
   - ExpoFileSystem (16.0.8):
     - ExpoModulesCore
   - ExpoKeepAwake (12.8.2):
@@ -965,7 +963,11 @@ PODS:
     - React-debug
   - react-native-blob-util (0.19.8):
     - React-Core
+  - react-native-document-picker (9.1.1):
+    - React-Core
   - react-native-pdf (6.7.4):
+    - React-Core
+  - react-native-safe-area-context (4.9.0):
     - React-Core
   - react-native-skia (1.0.4):
     - glog
@@ -1144,6 +1146,12 @@ PODS:
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
+  - RNPermissions (4.1.4):
+    - React-Core
+  - RNScreens (3.29.0):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
 
@@ -1153,7 +1161,6 @@ DEPENDENCIES:
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
   - Expo (from `../node_modules/expo`)
-  - ExpoDocumentPicker (from `../node_modules/expo-document-picker/ios`)
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
@@ -1208,7 +1215,9 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - react-native-blob-util (from `../node_modules/react-native-blob-util`)
+  - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-pdf (from `../node_modules/react-native-pdf`)
+  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-skia (from `../node_modules/@shopify/react-native-skia`)"
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
@@ -1231,6 +1240,8 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNPermissions (from `../node_modules/react-native-permissions`)
+  - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1260,8 +1271,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-font/ios"
   Expo:
     :path: "../node_modules/expo"
-  ExpoDocumentPicker:
-    :path: "../node_modules/expo-document-picker/ios"
   ExpoFileSystem:
     :path: "../node_modules/expo-file-system/ios"
   ExpoKeepAwake:
@@ -1321,8 +1330,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   react-native-blob-util:
     :path: "../node_modules/react-native-blob-util"
+  react-native-document-picker:
+    :path: "../node_modules/react-native-document-picker"
   react-native-pdf:
     :path: "../node_modules/react-native-pdf"
+  react-native-safe-area-context:
+    :path: "../node_modules/react-native-safe-area-context"
   react-native-skia:
     :path: "../node_modules/@shopify/react-native-skia"
   React-nativeconfig:
@@ -1367,6 +1380,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
+  RNScreens:
+    :path: "../node_modules/react-native-screens"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1377,7 +1394,6 @@ SPEC CHECKSUMS:
   EXConstants: 988aa430ca0f76b43cd46b66e7fae3287f9cc2fc
   EXFont: f20669cb266ef48b004f1eb1f2b20db96cd1df9f
   Expo: a7c9bd836cb7c86e699c2539a906c9ff873f19f8
-  ExpoDocumentPicker: 70254802886e29a45d4ad25486e64b6fc9c8f0cc
   ExpoFileSystem: eecaf6796aed0f4dd20042dc2ca2cac6c4bc1185
   ExpoKeepAwake: 0f5cad99603a3268e50af9a6eb8b76d0d9ac956c
   ExpoModulesCore: 61dc57c6e2a35f2f84baf488146db624e03af4cd
@@ -1418,7 +1434,9 @@ SPEC CHECKSUMS:
   React-logger: 3eb80a977f0d9669468ef641a5e1fabbc50a09ec
   React-Mapbuffer: 84ea43c6c6232049135b1550b8c60b2faac19fab
   react-native-blob-util: 26f1fb0c91f2b437380d4f3875769a7c3e06080e
+  react-native-document-picker: 3599b238843369026201d2ef466df53f77ae0452
   react-native-pdf: 79aa75e39a80c1d45ffe58aa500f3cf08f267a2e
+  react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
   react-native-skia: 2c0701216f24708abc03de169fd704d8de8e24f6
   React-nativeconfig: b4d4e9901d4cabb57be63053fd2aa6086eb3c85f
   React-NativeModulesApple: cd26e56d56350e123da0c1e3e4c76cb58a05e1ee
@@ -1441,9 +1459,11 @@ SPEC CHECKSUMS:
   React-utils: d16c1d2251c088ad817996621947d0ac8167b46c
   ReactCommon: 2aa35648354bd4c4665b9a5084a7d37097b89c10
   RNGestureHandler: 67fb54b3e6ca338a8044e85cd6f340265aa41091
+  RNPermissions: 211ece26f3c2d973ce390530a7e556347c08c6a9
+  RNScreens: 17e2f657f1b09a71ec3c821368a04acbb7ebcb46
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 805bf71192903b20fc14babe48080582fee65a80
 
-PODFILE CHECKSUM: f3b74fa3f36da9fbe60871817be79068904e6238
+PODFILE CHECKSUM: f333f1ff4ca4b2f0c0537619cfd989e4c7c89e4a
 
 COCOAPODS: 1.14.3
