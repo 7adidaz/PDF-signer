@@ -1,4 +1,3 @@
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Pdf from 'react-native-pdf';
 import React, {useState} from 'react';
 import {Button, Dimensions, StyleSheet, View} from 'react-native';
@@ -66,37 +65,20 @@ async function placeSignature(
 ) {
   const file = await RNFS.readFile(fileUri, 'base64');
   const pdfDoc = await PDFDocument.load(file);
-  // const svgPath = `M190.898 141.083L190.898 141.083L189.434 148.89L182.078 161.839L174.825 180.837L165.051 204.117L152.893 226.789L144.262 246.077L136.737 263.537L131.468 282.623L127.735 295.835L126.249 305.881L126.898 314.562L124.929 320.981L125.448 326.396L125.448 330.683L125.448 331.953L127.402 334.203L129.08 334.526L133.47 335.98L140.09 337.54L148.582 339.917L162.987 342.12L179.902 344.787L200.744 346.893L222.881 347.588L244.308 348.676L257.577 348.346L266.384 348.346L272.141 348.346L273.158 349.776L273.44 349.771L273.44 350.819L273.44 355.319L273.44 366.261L268.636 382.967L265.485 400.744L258.956 420.805L254.922 433.23L251.653 439.031L248.333 445.967L246.014 448.018L245.435 448.339L245.802 449.424L244.712 449.058`;
   const page = pdfDoc.getPage(pageNum - 1);
 
-  // page.moveTo(100, page.getHeight() - 5);
-  // page.moveDown(100);
-
-  // page.drawCircle({
-  //   size: 100,
-  //   borderWidth: 5,
-  //   borderColor: rgb(0, 1, 0),
-  //   color: rgb(0.75, 0.2, 0.2),
-  //   opacity: 0.5,
-  //   borderOpacity: 0.75,
-  // });
-  // 0 0 is bottom left
-
-  // console.log(page.getX(), page.getY());
-  // console.log(page.getWidth(), page.getHeight());
-
-  const {_, height_} = page.getSize();
+  const {height: h} = page.getSize();
   for (const path of paths) {
     const svg = path.toSVGString();
+    console.log('x', x, 'y', y);
     page.drawSvgPath(svg, {
       x: x,
-      y: height_ - y,
+      y: h - y,
       borderColor: rgb(0, 1, 0),
       borderWidth: 5,
+      scale: 0.5,
     });
   }
-
-  // page.drawSvgPath(svgPath, {borderColor: rgb(0, 1, 0), borderWidth: 5});
 
   const pdfBytes = await pdfDoc.save();
   const str = Base64.fromUint8Array(pdfBytes);
@@ -132,7 +114,7 @@ export default function PlaceSignature({route}) {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-      <GestureHandlerRootView style={styles.container}>
+      <View style={styles.container}>
         <View
           style={styles.draggable}
           onLayout={ev => {
@@ -157,7 +139,7 @@ export default function PlaceSignature({route}) {
           style={styles.pdf}
           enablePaging={false}
         />
-      </GestureHandlerRootView>
+      </View>
 
       <View style={styles.buttonContainer}>
         <Button
@@ -182,6 +164,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'red',
   },
   draggable: {
     flex: 1,
@@ -194,8 +177,10 @@ const styles = StyleSheet.create({
     flex: 1,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
+    backgroundColor: 'green',
   },
   buttonContainer: {
     width: '100%',
+    // flex: 1,
   },
 });
