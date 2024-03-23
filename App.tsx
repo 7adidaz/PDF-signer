@@ -6,6 +6,7 @@ import SelectPdf from './screens/SelectPDF';
 import Signature from './screens/Signature';
 import EditPdf from './screens/SelectPage';
 import PlaceSignature from './screens/PlaceSignature';
+import Result from './screens/Result';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ function App(): React.JSX.Element {
           name="Place Signature"
           component={gestureHandlerRootHOC(PlaceSignature)}
         />
+        <Stack.Screen name="Result" component={gestureHandlerRootHOC(Result)} />
       </Stack.Navigator>
     </NavigationContainer>
   );

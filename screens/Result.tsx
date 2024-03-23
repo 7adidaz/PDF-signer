@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Dimensions, StyleSheet, Button} from 'react-native';
+import {View, Dimensions, StyleSheet} from 'react-native';
 import PDF from 'react-native-pdf';
 
 export default function Result({route, navigation}) {
-  const {fileUri} = route.params;
+  const {fileUri, page} = route.params;
 
   return (
     <View style={styles.container}>
@@ -12,6 +12,7 @@ export default function Result({route, navigation}) {
           uri: fileUri,
           cache: true,
         }}
+        page={page}
         style={styles.pdf}
       />
     </View>
