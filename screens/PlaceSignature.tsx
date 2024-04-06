@@ -1,13 +1,15 @@
 import Pdf from 'react-native-pdf';
 import React from 'react';
 import {Text, Pressable, StyleSheet, View, Button} from 'react-native';
-import {Path, Svg} from 'react-native-svg';
 import {SkPath} from '@shopify/react-native-skia';
 import {PDFDocument, rgb} from 'pdf-lib';
 import RNFS from 'react-native-fs';
 import {Base64} from 'js-base64';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
-import {useSharedValue} from 'react-native-reanimated';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
 
 async function placeSignature(
   fileUri: string,
@@ -21,6 +23,7 @@ async function placeSignature(
     y: number;
   },
 ) {
+  console.log('Placing signature, ', fileUri);
   const file = await RNFS.readFile(fileUri, 'base64');
   const pdfDoc = await PDFDocument.load(file);
   const page = pdfDoc.getPage(pageNum - 1);
@@ -42,18 +45,27 @@ async function placeSignature(
 }
 
 export default function PlaceSignature({route, navigation}) {
-  const {fileUri, page, paths} = route.params;
+  const {fileUri, page, originalUri, paths} = route.params;
   const [xy, setXY] = React.useState({x: 0, y: 0});
+  const pressed = useSharedValue(false);
+  const offsetX = useSharedValue(0);
+  const offsetY = useSharedValue(0);
 
-  const pressed = useSharedValue(true);
-
-  const tap = Gesture.Tap()
+  const pan = Gesture.Pan()
     .onBegin(() => {
-      pressed.value = false;
-    })
-    .onFinalize(() => {
       pressed.value = true;
+    })
+    .onChange(event => {
+      offsetX.value += event.changeX;
+      offsetY.value += event.changeY;
     });
+
+  const animatedStyles = useAnimatedStyle(() => ({
+    transform: [
+      {translateX: offsetX.value - 40},
+      {translateY: offsetY.value - 40},
+    ],
+  }));
 
   return (
     <View
@@ -74,14 +86,23 @@ export default function PlaceSignature({route, navigation}) {
         onPress={e => {
           setXY({x: e.nativeEvent.locationX, y: e.nativeEvent.locationY});
         }}>
-        <GestureDetector gesture={tap}>
-          <Pdf
-            source={{uri: fileUri, cache: true}}
-            page={page}
-            style={styles.pdf}
-            enablePaging={false}
-            singlePage={true}
-          />
+        <GestureDetector gesture={pan}>
+          <View
+            style={{
+              flex: 1,
+              width: '100%',
+              height: '100%',
+              position: 'relative',
+            }}>
+            <Animated.View style={[styles.circle, animatedStyles]} />
+            <Pdf
+              source={{uri: fileUri, cache: true}}
+              page={page}
+              style={styles.pdf}
+              enablePaging={false}
+              singlePage={true}
+            />
+          </View>
         </GestureDetector>
       </Pressable>
       <View style={{flex: 1}} />
@@ -89,7 +110,7 @@ export default function PlaceSignature({route, navigation}) {
         <Button
           title="Place Signature"
           onPress={async () => {
-            await placeSignature(fileUri, page, paths, {
+            await placeSignature(originalUri, page, paths, {
               x: xy.x,
               y: xy.y,
             });
@@ -124,9 +145,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: -999,
   },
   buttonContainer: {
     width: '100%',
-    // flex: 1,
+  },
+  circle: {
+    height: 80,
+    width: 80,
+    zIndex: 1,
+    backgroundColor: '#b58df1',
+    borderRadius: 500,
   },
 });

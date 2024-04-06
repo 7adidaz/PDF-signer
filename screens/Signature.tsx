@@ -5,7 +5,7 @@ import {Canvas, Path, Skia, SkPath} from '@shopify/react-native-skia';
 import {runOnJS} from 'react-native-reanimated';
 
 export default function Signature({route, navigation}) {
-  const {fileName, fileUri} = route.params;
+  const {fileName, fileUri, originalUri} = route.params;
   const [paths, setPaths] = useState<SkPath[]>([]);
   const [path, setPath] = useState<SkPath>(Skia.Path.Make());
 
@@ -39,6 +39,7 @@ export default function Signature({route, navigation}) {
     navigation.navigate('Edit Pdf', {
       fileName: fileName,
       fileUri: fileUri,
+      originalUri: originalUri,
       paths: paths,
     });
   };

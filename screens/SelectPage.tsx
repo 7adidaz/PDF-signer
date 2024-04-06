@@ -3,7 +3,7 @@ import {View, Dimensions, StyleSheet, Button} from 'react-native';
 import PDF from 'react-native-pdf';
 
 export default function EditPdf({route, navigation}) {
-  const {fileUri, paths} = route.params;
+  const {fileUri, originalUri, paths} = route.params;
   const [currentPage, setCurrentPage] = React.useState(1);
   // const stat = await RNFetchBlob.fs.stat(fileUri);
   return (
@@ -27,6 +27,7 @@ export default function EditPdf({route, navigation}) {
             navigation.navigate('Place Signature', {
               fileUri: fileUri,
               page: currentPage,
+              originalUri: originalUri,
               paths: paths,
             });
           }}
