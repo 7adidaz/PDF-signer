@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "@react-navigation/native": "^6.1.16",
-    "@react-navigation/native-stack": "^6.9.25",
-    "@react-navigation/stack": "^6.3.28",
+    "@react-navigation/native-stack": "^6.9.26",
     "@shopify/react-native-skia": "^1.0.4",
     "expo": "^50.0.0",
     "js-base64": "^3.7.7",
@@ -26,9 +25,7 @@
     "react-native-pdf": "^6.7.4",
     "react-native-permissions": "^4.1.4",
     "react-native-reanimated": "^3.7.0",
-    "react-native-safe-area-context": "^4.9.0",
     "react-native-scoped-storage": "^1.9.5",
-    "react-native-screens": "^3.29.0",
     "react-native-svg": "^15.1.0"
   },
   "devDependencies": {

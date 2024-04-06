@@ -1,10 +1,11 @@
-import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import React from 'react';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 import SelectPdf from './screens/SelectPDF';
 import Signature from './screens/Signature';
-import EditPdf from './screens/SelectPage';
+import SelectPage from './screens/SelectPage';
 import PlaceSignature from './screens/PlaceSignature';
 import Result from './screens/Result';
 
@@ -23,8 +24,8 @@ function App(): React.JSX.Element {
           component={gestureHandlerRootHOC(Signature)}
         />
         <Stack.Screen
-          name="Edit Pdf"
-          component={gestureHandlerRootHOC(EditPdf)}
+          name="Select Page"
+          component={gestureHandlerRootHOC(SelectPage)}
         />
         <Stack.Screen
           name="Place Signature"

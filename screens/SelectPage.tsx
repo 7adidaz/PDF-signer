@@ -2,12 +2,20 @@ import React from 'react';
 import {View, Dimensions, StyleSheet, Button} from 'react-native';
 import PDF from 'react-native-pdf';
 
-export default function EditPdf({route, navigation}) {
-  const {fileUri, originalUri, paths} = route.params;
+export default function SelectPage({route, navigation}) {
+  const {fileUri, paths} = route.params;
   const [currentPage, setCurrentPage] = React.useState(1);
-  // const stat = await RNFetchBlob.fs.stat(fileUri);
+
+  const handleSelection = () => {
+    navigation.navigate('Place Signature', {
+      fileUri: fileUri,
+      page: currentPage,
+      paths: paths,
+    });
+  };
   return (
     <View style={styles.container}>
+
       <PDF
         source={{
           uri: fileUri,
@@ -18,19 +26,12 @@ export default function EditPdf({route, navigation}) {
         }}
         style={styles.pdf}
       />
+
       <View style={styles.buttonContainer}>
         <Button
           title={`Sign on page ${currentPage}`}
           color="#841584"
-          onPress={() => {
-            console.log('Selected page:', currentPage);
-            navigation.navigate('Place Signature', {
-              fileUri: fileUri,
-              page: currentPage,
-              originalUri: originalUri,
-              paths: paths,
-            });
-          }}
+          onPress={handleSelection}
         />
       </View>
     </View>

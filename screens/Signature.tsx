@@ -5,7 +5,7 @@ import {Canvas, Path, Skia, SkPath} from '@shopify/react-native-skia';
 import {runOnJS} from 'react-native-reanimated';
 
 export default function Signature({route, navigation}) {
-  const {fileName, fileUri, originalUri} = route.params;
+  const {fileName, fileUri} = route.params;
   const [paths, setPaths] = useState<SkPath[]>([]);
   const [path, setPath] = useState<SkPath>(Skia.Path.Make());
 
@@ -20,7 +20,6 @@ export default function Signature({route, navigation}) {
   const handleEnd = _ => {
     const pathsCopy = [...paths];
     pathsCopy.push(path);
-    console.log(path.toSVGString());
     setPath(Skia.Path.Make());
     setPaths(pathsCopy);
   };
@@ -36,11 +35,11 @@ export default function Signature({route, navigation}) {
   };
 
   const navigateToEditPdf = () => {
-    navigation.navigate('Edit Pdf', {
+    const svgPaths = paths.map(p => p.toSVGString());
+    navigation.navigate('Select Page', {
       fileName: fileName,
       fileUri: fileUri,
-      originalUri: originalUri,
-      paths: paths,
+      paths: svgPaths,
     });
   };
 
@@ -51,7 +50,6 @@ export default function Signature({route, navigation}) {
           {paths.map((p, index) => (
             <Path
               key={index}
-              // path={p.segments.join(' ')}
               path={p}
               strokeWidth={5}
               style="stroke"

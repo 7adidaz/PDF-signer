@@ -6,20 +6,17 @@ import RNPermissions from 'react-native-permissions';
 export default function SelectPdf({navigation}) {
   const handleSelection = async () => {
     try {
-      await RNPermissions.requestMultiple([
+      await RNPermissions.request(
         RNPermissions.PERMISSIONS.ANDROID.ACCESS_MEDIA_LOCATION,
-      ]);
+      );
 
       const res = await DocumentPicker.pickSingle({
         type: [DocumentPicker.types.pdf],
         copyTo: 'cachesDirectory',
       });
 
-      console.log('res:', res);
-
       navigation.navigate('Signature', {
         fileUri: res.fileCopyUri,
-        originalUri: res.uri,
       });
     } catch (err) {
       console.log(err);
