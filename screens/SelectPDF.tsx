@@ -15,12 +15,14 @@ export default function SelectPdf({navigation}) {
         copyTo: 'cachesDirectory',
       });
 
+      if (res.type !== 'application/pdf') {
+        return;
+      }
+
       navigation.navigate('Signature', {
         fileUri: res.fileCopyUri,
       });
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   return (

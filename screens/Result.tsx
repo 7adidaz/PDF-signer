@@ -3,8 +3,8 @@ import {View, Text, Dimensions, StyleSheet, Button} from 'react-native';
 import PDF from 'react-native-pdf';
 import RNFS from 'react-native-fs';
 
-export default function Result({route}) {
-  const {fileUri, page} = route.params;
+export default function Result({navigation, route}) {
+  const {fileUri, fileName, svgPaths, page} = route.params;
   const [downloaded, setDownloaded] = useState(false);
 
   const handleSave = async () => {
@@ -27,9 +27,20 @@ export default function Result({route}) {
       />
       <View style={styles.buttonContainer}>
         <Button
-          title="Save To Download Folder"
+          title="Save in Download Folder"
           color="#841584"
           onPress={handleSave}
+        />
+        <Button
+          title="Place Another Signature"
+          color="#841584"
+          onPress={() => {
+            navigation.navigate('Select Page', {
+              fileName: fileName,
+              fileUri: fileUri,
+              paths: svgPaths,
+            });
+          }}
         />
       </View>
     </View>
@@ -44,6 +55,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
   },
   pdf: {
     flex: 1,

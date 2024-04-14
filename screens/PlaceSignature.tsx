@@ -49,7 +49,11 @@ export default function PlaceSignature({route, navigation}) {
       x: xy.x,
       y: xy.y,
     });
-    navigation.navigate('Result', {fileUri, page});
+    navigation.navigate('Result', {
+      svgPaths: paths,
+      fileUri: fileUri,
+      page: page,
+    });
   };
 
   return (
